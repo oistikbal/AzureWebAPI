@@ -6,7 +6,7 @@ namespace AzureWebAPI.Database
 {
     public class User : IdentityUser { }
 
-    public class ApplicationDBContext : IdentityDbContext<User>
+    public class ApplicationDBContext : IdentityDbContext<User, IdentityRole, string>
     {
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
     : base(options)
