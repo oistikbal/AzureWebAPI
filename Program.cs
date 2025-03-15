@@ -6,10 +6,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 
+builder.Services.AddRazorPages();
 
 builder.Services.AddIdentity<User, IdentityRole>().
     AddEntityFrameworkStores<ApplicationDBContext>()
+    .AddDefaultUI()
     .AddDefaultTokenProviders();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = false; // Allow login without email confirmation
+});
 
 var connection = String.Empty;
 if (builder.Environment.IsDevelopment())
@@ -54,6 +61,11 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
+
+app.UseStaticFiles();
+app.MapRazorPages();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
 
